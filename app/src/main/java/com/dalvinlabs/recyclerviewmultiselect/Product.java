@@ -4,6 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Product {
+  public String getName() {
+    return name;
+  }
+
+  public String getSize() {
+    return size;
+  }
+
+  public String getColor() {
+    return color;
+  }
+
+  public String getPrice() {
+    return price;
+  }
+
 
   public final String name;
   public final String size;
@@ -38,4 +54,6 @@ public class Product {
 
     return list;
   }
+
+
 }

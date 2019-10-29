@@ -10,15 +10,20 @@ import androidx.recyclerview.selection.SelectionTracker;
 import androidx.recyclerview.selection.StorageStrategy;
 import com.dalvinlabs.recyclerviewmultiselect.databinding.ActivityMainBinding;
 
+import java.util.Iterator;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
   private SelectionTracker<Long> selectionTracker;
-
+  private List<Product> mProduct;
+  private  Adapter adapter;
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-    Adapter adapter = new Adapter(Product.getProducts());
+    mProduct =Product.getProducts();
+    adapter = new Adapter(mProduct);
     binding.recyclerView.setAdapter(adapter);
     selectionTracker = new SelectionTracker.Builder<>("my_selection",
         binding.recyclerView,
@@ -41,6 +46,16 @@ public class MainActivity extends AppCompatActivity {
     int id = item.getItemId();
     if (id == R.id.action_selections) {
       Toast.makeText(this, selectionTracker.getSelection().toString(), Toast.LENGTH_LONG).show();
+      Iterator iterator = selectionTracker.getSelection().iterator();
+     /* while(iterator.hasNext()){
+       Long index = (Long)iterator.next();*/
+        //mProduct.remove(index.intValue());
+        mProduct.removeIf(
+                x -> selectionTracker.getSelection().contains(x));
+        adapter.notifyDataSetChanged();
+        //}
+      selectionTracker.clearSelection();
+
     }
     return super.onOptionsItemSelected(item);
   }
